@@ -1,0 +1,29 @@
+import random
+import matplotlib.pyplot as plt
+
+
+def dice_flip(times=10000):
+    results = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0}
+
+    for _ in range(times):
+        throw = random.randint(1, 6)
+        results[throw] += 1
+
+    return results
+
+
+def grafik_ciz(sonuclar):
+    etiketler = list(sonuclar.keys())      # [1, 2, 3, 4, 5, 6]
+    degerler = list(sonuclar.values())     # [1678, 1654, ...]
+
+    plt.bar(etiketler, degerler, color="steelblue")
+    plt.title("Zar Atışı Sonuçları")
+    plt.xlabel("Zar Yüzü")
+    plt.ylabel("Kaç Kere Geldi")
+    plt.show()
+
+
+if __name__ == "__main__":
+    sonuc = dice_flip(10000)
+    print(sonuc)
+    grafik_ciz(sonuc)
