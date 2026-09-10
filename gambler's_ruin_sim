@@ -1,0 +1,44 @@
+import random
+import matplotlib.pyplot as plt
+
+def kumarci_sim(baslangic_parasi = 50, hedef = 100, p_kazanma = 0.5):
+    para = baslangic_parasi
+    gecmis = [para]
+
+    while 0 < para < hedef:
+        if random.random() < p_kazanma:
+            para += 1
+        else:
+            para -= 1
+        gecmis.append(para)
+    sonuc = "Zengin oldun!" if para >= hedef else "İflas ettin!"
+    return gecmis, sonuc
+def coklu_deneme(n_deneme = 1000, baslangic_parasi = 50, hedef = 100, p_kazanma = 0.5):
+    zengin_olan = 0
+    for _ in range(n_deneme):
+        _, sonuc = kumarci_sim(baslangic_parasi, hedef, p_kazanma)
+        if sonuc . startswith("Zengin"):
+            zengin_olan += 1
+    oran = zengin_olan / n_deneme
+    return oran
+
+def grafik_ciz(gecmis, hedef, sonuc):
+    plt.figure(figsize=(10, 5))
+    plt.plot(gecmis, color = "steelblue", linewidth = 1)
+    plt.axhline(hedef, color = "green", linestyle = "--", label = f"Hedef({hedef})")
+    plt.axhline(0, color = "red", linestyle = "--", label = "İflas (0)")
+    plt.title(f"Kumarcının Bakiyesi Zaman İçinde -Sonuc: {sonuc}")
+    plt.xlabel("Tur Sayısı")
+    plt.ylabel("Bakiye")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig('kumarci_simulasyonu.png', dpi = 150)
+    print("Grafik kaydedildi: kumarci_simulasyonu.png")
+
+if __name__ == "__main__":
+    gecmis, sonuc = kumarci_sim(baslangic_parasi = 50, hedef = 100, p_kazanma = 0.5)
+    print(f"Tek deneme sonucu: {sonuc} (toplam {len(gecmis)-1} tur oynandı)")
+    grafik_ciz(gecmis, hedef = 100, sonuc = sonuc)
+    oran = coklu_deneme(n_deneme = 1000, baslangic_parasi = 50, hedef = 100, p_kazanma = 0.5)
+    print(f"\n1000 denemede zengin olma oranı : %{oran * 100: 2f}")
+    print("(Teorik olarak adil parada bu oran, başlangıç parası / hedef = 50/100 = %50 olmalı)")

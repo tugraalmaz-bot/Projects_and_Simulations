@@ -1,0 +1,25 @@
+import random
+import matplotlib.pyplot as plt
+def coin_flip(times = 10000):
+    results = {"yazı": 0, "tura": 0}
+
+    for _ in range(times):
+        throw = random.choice(["yazı", "tura"])
+        results[throw] += 1
+
+    return results
+
+def grafik_ciz(sonuclar):
+    etiketler = list(sonuclar.keys())
+    degerler = list(sonuclar.values())
+
+    plt.bar(etiketler, degerler, color = "steelblue")
+    plt.title("Para atışı sonuçları")
+    plt.xlabel("Para yüzü")
+    plt.ylabel("Kaç kere geldi")
+    plt.show()
+
+if __name__ == "__main__":
+    sonuc = coin_flip(10000)
+    print(sonuc)
+    grafik_ciz(sonuc)

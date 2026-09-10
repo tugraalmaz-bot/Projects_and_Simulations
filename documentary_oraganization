@@ -1,0 +1,71 @@
+import os
+import shutil
+ 
+KATEGORILER = {
+    "Resimler": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg", ".webp"],
+    "Belgeler": [".pdf", ".docx", ".doc", ".txt", ".xlsx", ".xls", ".pptx", ".ppt"],
+    "Videolar": [".mp4", ".mkv", ".avi", ".mov", ".wmv"],
+    "Muzikler": [".mp3", ".wav", ".flac", ".aac"],
+    "Arsivler": [".zip", ".rar", ".7z", ".tar", ".gz"],
+    "Kod_Dosyalari": [".py", ".js", ".html", ".css", ".java", ".cpp", ".c"],
+}
+ 
+ 
+def kategori_bul(dosya_uzantisi):
+    for kategori, uzantilar in KATEGORILER.items():
+        if dosya_uzantisi.lower() in uzantilar:
+            return kategori
+    return "Diger"
+ 
+ 
+def dosyalari_organize_et(hedef_klasor):
+    if not os.path.isdir(hedef_klasor):
+        print(f"HATA: '{hedef_klasor}' adında bir klasör bulunamadı.")
+        return
+ 
+    tasinan_dosya_sayisi = 0
+ 
+    for dosya_adi in os.listdir(hedef_klasor):
+        dosya_yolu = os.path.join(hedef_klasor, dosya_adi)
+ 
+        if os.path.isdir(dosya_yolu):
+            continue
+ 
+        _, uzanti = os.path.splitext(dosya_adi)
+ 
+        if uzanti == "":
+            continue
+ 
+        kategori = kategori_bul(uzanti)
+ 
+        # Kategori klasörünün yolunu oluştur
+        kategori_klasoru = os.path.join(hedef_klasor, kategori)
+ 
+        # Kategori klasörü yoksa oluştur
+        if not os.path.exists(kategori_klasoru):
+            os.makedirs(kategori_klasoru)
+ 
+        yeni_yol = os.path.join(kategori_klasoru, dosya_adi)
+ 
+        try:
+            shutil.move(dosya_yolu, yeni_yol)
+            print(f"Taşındı: {dosya_adi}  ->  {kategori}/")
+            tasinan_dosya_sayisi += 1
+        except Exception as hata:
+            print(f"HATA: '{dosya_adi}' taşınamadı. Sebep: {hata}")
+ 
+    print(f"\nİşlem tamamlandı! Toplam {tasinan_dosya_sayisi} dosya organize edildi.")
+ 
+ 
+if __name__ == "__main__":
+    print("=== DOSYA ORGANİZATÖRÜ ===\n")
+    klasor_yolu = input("Organize etmek istediğin klasörün tam yolunu gir: ").strip()
+ 
+    klasor_yolu = klasor_yolu.strip('"').strip("'")
+ 
+    onay = input(f"\n'{klasor_yolu}' klasörünü organize etmek istediğine emin misin? (e/h): ")
+ 
+    if onay.lower() == "e":
+        dosyalari_organize_et(klasor_yolu)
+    else:
+        print("İşlem iptal edildi.")

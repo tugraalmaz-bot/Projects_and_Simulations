@@ -1,0 +1,46 @@
+def sifrele(metin, shift):
+    sonuc = ""
+    for harf in metin:
+        if harf.isalpha():
+            taban = ord('A') if harf.isupper() else ord('a')
+            yeni_kod = (ord(harf) - taban + shift) % 26
+            sonuc += chr(yeni_kod + taban)
+        else:
+            sonuc += harf
+    return sonuc
+
+def coz(metin, shift):
+    return sifrele(metin, -shift)
+
+def brute_force(metin):
+    print("\nTüm olası çözümler:\n")
+    for shift in range (26):
+        deneme = coz(metin, shift)
+        print(f"Shift {shift}: {deneme}")
+
+def main():
+    while True:
+        secim = input("\n1) Şifrele\n2) Çöz \n3) Kaydırmayı bilmeden kır(brute force)\n4) Çıkış\nSeçim: ")
+
+        if secim == "1":
+            metin = input("Şifrelenecek metni girin: ")
+            shift = int(input("Kaydırma miktarı: "))
+            print("Şifreli metin:", sifrele(metin, shift))
+
+        elif secim == "2":
+            metin = input("Şifrelenecek metni girin: ")
+            shift = int(input("Kaydırma miktarı: "))
+            print("Çözülmüş metin: ", coz(metin, shift))
+
+        elif secim == "3":
+            metin = input("Kaydırmasını bilmediğin metni girin: ")
+            brute_force(metin)
+
+        elif secim == "4":
+            print("Çıkarılıyor...")
+            break
+
+        else:
+            print("Geçersiz seçim, tekrar dene.")
+
+main()

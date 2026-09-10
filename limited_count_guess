@@ -1,0 +1,30 @@
+import random
+
+def comp():
+    secret_count = random.randint(1, 100)
+    user_limit = 7
+
+    print("I chose a count between 1-100. Try to find it! \n")
+
+    while user_limit > 0:
+        try:
+            user_guess = int(input("Choose a count between 1-100. \n"))
+        except ValueError:
+                print("Type a valid count!")
+                continue
+        if user_guess == secret_count:
+            print("You hit the count!")
+            break
+        
+        elif user_guess < secret_count:
+            user_limit -= 1
+            print(f"Try higher. You have {user_limit} limit right now. \n")
+            continue   
+        elif user_guess > secret_count:
+            user_limit -= 1
+            print(f"Try lower. You have {user_limit} limit right now. \n")
+            continue
+    if user_limit == 0:
+        print("Your tries are out! You lost the game")
+
+comp()

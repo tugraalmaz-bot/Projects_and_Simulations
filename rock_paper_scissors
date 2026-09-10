@@ -1,0 +1,40 @@
+import random
+
+def comp():
+    options = ["rock", "paper", "scissors"]
+    user_score = 0
+    comp_score = 0
+    round_count = 0
+
+    while True:
+        round_count += 1
+        user = input("Rock, paper or scissors? If you want to quit, please press 'x'. ").lower()
+
+        if user == "x":
+            break
+        if user not in options:
+            print("Invalid choose! Please try again.")
+            round_count -= 1
+            continue
+        computer = random.choice(options)
+        print(f"Computer: {computer}")
+
+        if user == computer:
+            print("Tie")
+        elif ((user == "rock" and computer == "scissors") or 
+              (user == "paper" and computer == "rock") or 
+              (user == "scissors" and computer == "paper")):
+            print("You Won!")
+            user_score += 1
+        else:
+            print("You Lost!")
+            comp_score += 1
+
+        print(f"Your Score: {user_score}| Computer Score: {comp_score}")
+        print(f"Total Round: {round_count}\n")
+
+    print("\nGameover")
+    print(f"You played {round_count} round.")
+    print(f"Result, You: {user_score}| Computer: {comp_score}")
+
+comp()

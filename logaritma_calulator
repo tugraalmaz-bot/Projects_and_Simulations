@@ -1,0 +1,19 @@
+def ln(x):
+    z = (x - 1) / (x + 1)
+    toplam = 0
+    terim = z
+    for n in range(1, 1000, 2):
+        toplam += terim / n
+        terim *= z * z
+    return 2 * toplam
+
+def logaritma(sayi, taban):
+    return ln(sayi) / ln(taban)
+
+
+sayi = float(input("Üss girin: "))
+taban = float(input("Taban girin: "))
+
+
+sonuc = logaritma(sayi, taban)
+print(f"log_{taban}({sayi})) = {sonuc}")
